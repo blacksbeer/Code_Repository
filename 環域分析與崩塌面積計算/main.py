@@ -88,7 +88,7 @@ def ClipLandslide(place, year, distance):
     gdb = r'{}\新增崩塌.gdb'.format(place)
     large = gpd.read_file(gdb, layer='New_{}'.format(year))
     large['geometry'] = large['geometry'].apply(make_valid) ##Debug## 修復invalid圖層
-    small = gpd.read_file(r'屏東縣\雨量站環域\Buffer_{}.shp'.format(distance))
+    small = gpd.read_file(r'{}\雨量站環域\Buffer_{}.shp'.format(place, distance))
 
     for i in range(len(small)):
         n = small.filter(items=[i], axis=0).reset_index(drop=True)
