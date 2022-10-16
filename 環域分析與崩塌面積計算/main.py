@@ -120,13 +120,11 @@ def ClipLandslide(place, year, distance):
         with open(r'{}\崩塌面積.csv'.format(place), 'w', newline='') as save:
             info.to_csv(save, encoding='utf-8', index=False)
 
-#Running
-if __name__ == '__main__':
-    place = '屏東縣'
+def main(place, distance_range, year_range):
     Create_Folders(place)
     print('環域分析...')
     dis = pd.DataFrame()
-    for d in range(500,8001,500):
+    for d in distance_range:
         print('Distance: {} meter...'.format(d))
         OutputBufferData(place, d)
         dis = dis.append(DistanceSuitableCheck(place, d))
@@ -138,5 +136,13 @@ if __name__ == '__main__':
     #選用最合適範圍
     usedist = int(dis[dis['score']== max(dis['score'])].T.values[0,0])
     print('合適範圍: {} meter'.format(usedist))
-    for y in range(2004, 2018, 1):
+    for y in year_range:
         ClipLandslide(place, y, usedist)
+    
+#Running
+if __name__ == '__main__':
+    place = '屏東縣'
+    distance_range = range(500, 8001, 500)
+    year_range =  range(2004, 2018, 1)
+
+    main(place, distance_range, year_range)
